@@ -22,7 +22,7 @@
 特别的，Naifu还存在一个简易客户端，除关键词外会使用网站上的默认参数进行生成，只要填入关键词就能生成不错的效果
 ```C#
             EasyNaifuClient easyNaifuClient = new EasyNaifuClient("http://127.0.0.1:6969/");
-            byte[] imageBytes = await easyNaifuClient.PostAsync("Tags");  //关键词标签，多个关键词用逗号分隔
+            byte[] imageBytes = await easyNaifuClient.PostAsync(new string[]{"Tags"});  //关键词标签
             Image bmp = Image.FromStream(new MemoryStream(imageBytes));
 ```
 
