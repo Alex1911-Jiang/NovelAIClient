@@ -27,7 +27,7 @@
 ```
 
 
-###如何安装
+### 如何安装
 使用[NuGet包](https://www.nuget.org/packages/NovelAIClient/)安装
 ```powershell
   Install-Package NovelAIClient
