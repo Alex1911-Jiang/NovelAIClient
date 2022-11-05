@@ -8,18 +8,19 @@ namespace NovelAi_Test
         {
             InitializeComponent();
         }
+
         private async void Naifu()
         {
-            EasyNaifuClient easyNaifuClient = new EasyNaifuClient("http://127.0.0.1:6969/");
-            byte[] imageBytes = await easyNaifuClient.PostAsync(txbTags.Text.Split(',').Select(s => s.Trim()).ToArray());
-            Image bmp = Image.FromStream(new MemoryStream(imageBytes));
-            pictureBox1.Image = bmp;
+            NaifuClient naifuClient = new NaifuClient("http://127.0.0.1:6969/", true);
+            byte[]? imageBytes = await naifuClient.PostAsync(txbTags.Text);
+            if (imageBytes != null)
+                pictureBox1.Image = Image.FromStream(new MemoryStream(imageBytes));
         }
 
         private async void WebUI()
         {
             WebUIClient webUIClient = new WebUIClient("http://127.0.0.1:7860/");
-            byte[]? imageBytes = await webUIClient.PostAsync(txbTags.Text.Split(',').Select(s => s.Trim()).ToArray());
+            byte[]? imageBytes = await webUIClient.PostAsync(txbTags.Text);
             if (imageBytes != null)
                 pictureBox1.Image = new Bitmap(new MemoryStream(imageBytes));
         }

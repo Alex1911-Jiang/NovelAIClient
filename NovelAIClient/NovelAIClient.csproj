@@ -10,7 +10,13 @@
     <PackageProjectUrl>https://github.com/Alex1911-Jiang/NovelAIClient</PackageProjectUrl>
     <PackageTags>Novel;NovelAI</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Version>1.0.1</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="NaifuClient.cs~RF628705.TMP" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

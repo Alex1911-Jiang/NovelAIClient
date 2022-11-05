@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace NovelAIClient.Models
 {
+    /// <summary>
+    /// WebUI请求参数实体类
+    /// </summary>
     public class WebUIRequestModel
     {
         /// <summary>
