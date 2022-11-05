@@ -8,14 +8,14 @@
 #### 对于WebUI
 ```C#
             WebUIClient webUIClient = new WebUIClient("http://127.0.0.1:7860/");  //服务地址和端口
-            byte[]? imageBytes = await webUIClient.PostAsync("Tags");  //关键词标签，多个关键词用逗号分隔，还有屏蔽词和图片尺寸的重载
+            byte[]? imageBytes = await webUIClient.PostAsync("Tag1"，"Tag2");  //关键词标签，还有含屏蔽词和图片尺寸的重载
             Bitmap bmp = new Bitmap(new MemoryStream(imageBytes));
 ```
 
 #### 对于Naifu
 ```C#
             NaifuClient naifuClient = new NaifuClient("http://127.0.0.1:6969/");
-            byte[] imageBytes = await naifuClient.PostAsync("Tags");  //关键词标签，多个关键词用逗号分隔，还有屏蔽词、图片尺寸和种子的重载
+            byte[] imageBytes = await naifuClient.PostAsync("Tags"，"Tag2");  //关键词标签，还有含屏蔽词、图片尺寸和种子的重载
             Image bmp = Image.FromStream(new MemoryStream(imageBytes));
 ```
 
