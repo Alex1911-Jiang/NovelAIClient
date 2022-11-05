@@ -7,23 +7,18 @@
 ### 如何使用
 #### 对于WebUI
 ```C#
-            WebUIClient webUIClient = new WebUIClient("http://127.0.0.1:7860/");  //服务地址和端口
-            byte[]? imageBytes = await webUIClient.PostAsync("Tag1"，"Tag2");  //关键词标签，还有含屏蔽词和图片尺寸的重载
-            Bitmap bmp = new Bitmap(new MemoryStream(imageBytes));
+            WebUIClient webUIClient = new WebUIClient("http://127.0.0.1:7860/");  //WebUI服务地址
+            byte[]? imageBytes = await webUIClient.PostAsync("关键词");  //还有含屏蔽词和图片尺寸以及所有参数实体的重载
+            if (imageBytes != null)
+                Image bmp = new Bitmap(new MemoryStream(imageBytes));
 ```
 
 #### 对于Naifu
 ```C#
-            NaifuClient naifuClient = new NaifuClient("http://127.0.0.1:6969/");
-            byte[] imageBytes = await naifuClient.PostAsync("Tags"，"Tag2");  //关键词标签，还有含屏蔽词、图片尺寸和种子的重载
-            Image bmp = Image.FromStream(new MemoryStream(imageBytes));
-```
-
-特别的，Naifu还存在一个简易客户端，除关键词外会使用网站上的默认参数进行生成，只要填入关键词就能生成不错的效果
-```C#
-            EasyNaifuClient easyNaifuClient = new EasyNaifuClient("http://127.0.0.1:6969/");
-            byte[] imageBytes = await easyNaifuClient.PostAsync(new string[]{"Tags"});  //关键词标签
-            Image bmp = Image.FromStream(new MemoryStream(imageBytes));
+            NaifuClient naifuClient = new NaifuClient("http://127.0.0.1:6969/", true);  //Naifu服务地址和是否填充Naifu网页默认参数
+            byte[]? imageBytes = await naifuClient.PostAsync("关键词");  //还有含屏蔽词和图片尺寸以及所有参数实体的重载
+            if (imageBytes != null)
+                Image bmp = Image.FromStream(new MemoryStream(imageBytes));
 ```
 
 
@@ -32,3 +27,5 @@
 ```powershell
   Install-Package NovelAIClient
 ```
+
+暂时只有接入了根据关键词生成图片的API，如果有其他人用这个的话会考虑加上接入以图片生成图片和根据图片反推标签的API
