@@ -18,8 +18,14 @@ namespace NovelAIClient.Models
         /// Negative prompt
         /// </summary>
         public string NegativePrompt { get; set; } = "";
-        public string Param2 { get; set; } = "None";
-        public string Param3 { get; set; } = "None";
+        /// <summary>
+        /// Style 1
+        /// </summary>
+        public string Style1 { get; set; } = "None";
+        /// <summary>
+        /// Style 2
+        /// </summary>
+        public string Style2 { get; set; } = "None";
         /// <summary>
         /// Sampling Steps
         /// </summary>
@@ -27,9 +33,15 @@ namespace NovelAIClient.Models
         /// <summary>
         /// Sampling Method
         /// </summary>
-        public SamplingMethods SamplingMethod { get; set; } = SamplingMethods.Euler_a;  //Sampling method ("Euler a","Euler","LMS","Heun","DPM2","DPM2 a","DPM fast","DPM adaptive","LMS Karras","DPM2 Karras","DPM2 a Karras","DDIM","PLMS")
-        public bool Param6 { get; set; } = false;
-        public bool Param7 { get; set; } = false;
+        public SamplingMethods SamplingMethod { get; set; } = SamplingMethods.Euler_a;
+        /// <summary>
+        /// Restore faces
+        /// </summary>
+        public bool RestoreFaces { get; set; } = false;
+        /// <summary>
+        /// Tiling
+        /// </summary>
+        public bool Tiling { get; set; } = false;
         /// <summary>
         /// Batch count
         /// </summary>
@@ -62,7 +74,10 @@ namespace NovelAIClient.Models
         /// Resize seed from width
         /// </summary>
         public int ResizeSeedFromWidth { get; set; } = 0;
-        public bool Param16 { get; set; } = false;
+        /// <summary>
+        /// Extra
+        /// </summary>
+        public bool Extra { get; set; } = false;
         /// <summary>
         /// Height
         /// </summary>
@@ -71,10 +86,22 @@ namespace NovelAIClient.Models
         /// Width
         /// </summary>
         public int Width { get; set; } = 512;
-        public bool Param19 { get; set; } = false;
-        public float Param20 { get; set; } = 0.7f;
-        public int Param21 { get; set; } = 0;
-        public int Param22 { get; set; } = 0;
+        /// <summary>
+        /// Highres. fix
+        /// </summary>
+        public bool HighresFix { get; set; } = false;
+        /// <summary>
+        /// Denoising strength
+        /// </summary>
+        public float DenoisingStrength { get; set; } = 0.7f;
+        /// <summary>
+        /// Firstpass width
+        /// </summary>
+        public int FirstpassWidth { get; set; } = 0;
+        /// <summary>
+        /// Firstpass height
+        /// </summary>
+        public int FirstpassHeight { get; set; } = 0;
         /// <summary>
         /// Script
         /// </summary>
@@ -123,8 +150,15 @@ namespace NovelAIClient.Models
         /// Keep -1 for seeds
         /// </summary>
         public bool Keep__1_for_seeds { get; set; } = false;
-        public object? Param35 { get; set; } = null;
+        /// <summary>
+        /// 未知参数，不管设置什么选项总是为null，如果您知道是什么，欢迎向我反馈：https://github.com/Alex1911-Jiang/NovelAIClient/issues
+        /// </summary>
+        public object? Unknown { get; set; } = null;
 
+        /// <summary>
+        /// 序列化属性
+        /// </summary>
+        /// <returns></returns>
         public ArrayList ToArray()
         {
             ArrayList array = new ArrayList();
