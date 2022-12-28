@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Alex1911-Jiang</Authors>
     <Copyright></Copyright>
     <Description>调用私服NovelAI的库</Description>
@@ -14,10 +14,18 @@
     <Version>1.0.3</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Alex1911-Jiang/NovelAIClient</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="NaifuClient.cs~RF628705.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
