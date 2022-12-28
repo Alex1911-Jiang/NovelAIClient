@@ -8,7 +8,7 @@
 #### 对于初版WebUI
 ```C#
             int fn_index = 13;
-            WebUIClient webUIClient = new WebUIClient(13, "http://127.0.0.1:7860/");  //WebUI服务地址
+            WebUIClient webUIClient = new WebUIClient(fn_index, "http://127.0.0.1:7860/");  //WebUI服务地址
             byte[]? imageBytes = await webUIClient.PostAsync("生成提示词");  //还有含屏蔽词和图片尺寸以及所有参数实体的重载
             if (imageBytes is not null)
                 Image bmp = new Bitmap(new MemoryStream(imageBytes));
@@ -17,7 +17,7 @@
 #### 对于后续任意魔改版WebUI
 ```C#
             int fn_index = 104;
-            CustomWebUIClient webUIClient = new CustomWebUIClient(fn_index, "http://127.0.0.1:7860/");  //fn_index和WebUI服务地址
+            CustomWebUIClient webUIClient = new CustomWebUIClient(fn_index, "http://127.0.0.1:7860/");  //WebUI服务地址
             byte[]? imageBytes = await webUIClient.PostAsync("自定义参数字符串","生成提示词","屏蔽词");
             if (imageBytes is not null)
                 Image bmp = new Bitmap(new MemoryStream(imageBytes));
@@ -33,6 +33,7 @@
 
 #### 关于 WebUI 的 fn_index 和自定义参数获取办法
 打开浏览器开发者工具并发起一个请求，随后在（Edge:网络-负载）/（Chrome:网络-请求）中复制
+![fn_indexAndData](https://user-images.githubusercontent.com/50268952/209811793-778448f5-9cef-4f47-ac0c-ce57161080de.jpg)
 
 
 ### 如何安装
