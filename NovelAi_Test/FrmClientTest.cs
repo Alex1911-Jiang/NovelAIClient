@@ -1,3 +1,4 @@
+using System.Collections;
 using NovelAIClient;
 
 namespace NovelAi_Test
@@ -11,18 +12,32 @@ namespace NovelAi_Test
 
         private async void Naifu()
         {
-            NaifuClient naifuClient = new NaifuClient("http://127.0.0.1:6969/", true);
-            byte[]? imageBytes = await naifuClient.PostAsync(txbTags.Text);
-            if (imageBytes != null)
-                pictureBox1.Image = Image.FromStream(new MemoryStream(imageBytes));
+            try
+            {
+                NaifuClient naifuClient = new NaifuClient("http://127.0.0.1:6969/", true);
+                byte[]? imageBytes = await naifuClient.PostAsync(txbTags.Text);
+                if (imageBytes != null)
+                    pictureBox1.Image = Image.FromStream(new MemoryStream(imageBytes));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "´íÎó");
+            }
         }
 
         private async void WebUI()
         {
-            WebUIClient webUIClient = new WebUIClient("http://127.0.0.1:7860/");
-            byte[]? imageBytes = await webUIClient.PostAsync(txbTags.Text);
-            if (imageBytes != null)
-                pictureBox1.Image = new Bitmap(new MemoryStream(imageBytes));
+            try
+            {
+                WebUIClient webUIClient = new WebUIClient(13, "http://127.0.0.1:7860/");
+                byte[]? imageBytes = await webUIClient.PostAsync(txbTags.Text);
+                if (imageBytes != null)
+                    pictureBox1.Image = new Bitmap(new MemoryStream(imageBytes));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "´íÎó");
+            }
         }
 
         private void btnWebUI_Click(object sender, EventArgs e)
@@ -33,6 +48,27 @@ namespace NovelAi_Test
         private void btnNaifu_Click(object sender, EventArgs e)
         {
             Naifu();
+        }
+
+        private void btnCustomWebUI_Click(object sender, EventArgs e)
+        {
+            CustomWebUI();
+        }
+
+        private async void CustomWebUI()
+        {
+            try
+            {
+                int fn_index =  Convert.ToInt32(txbCustomWebUIFnIndex.Text);
+                CustomWebUIClient webUIClient = new CustomWebUIClient(fn_index, "http://127.0.0.1:7860/");
+                byte[]? imageBytes = await webUIClient.PostAsync(txbCustomWebUIData.Text);
+                if (imageBytes != null)
+                    pictureBox1.Image = new Bitmap(new MemoryStream(imageBytes));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "´íÎó");
+            }
         }
     }
 }

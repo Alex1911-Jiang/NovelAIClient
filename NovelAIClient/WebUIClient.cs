@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -17,13 +16,16 @@ namespace NovelAIClient
     /// </summary>
     public class WebUIClient : BaseClient
     {
+        private int _fnIndex;
         /// <summary>
-        /// 实例化一个WebUI客户端对象
+        /// 实例化一个WebUI客户端对象(只适用于最泄露的原始版本)
         /// WebUI默认地址为：http://127.0.0.1:7860/
         /// </summary>
+        /// <param name="fnIndex">请求函数索引（请在浏览器手动发起一次请求获取）</param>
         /// <param name="host">服务地址</param>
-        public WebUIClient(string host = "http://127.0.0.1:7860/") : base(host)
+        public WebUIClient(int fnIndex, string host = "http://127.0.0.1:7860/") : base(host)
         {
+            _fnIndex = fnIndex;
         }
 
         /// <summary>
@@ -101,12 +103,12 @@ namespace NovelAIClient
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
-            input input = new input(model.ToArray());
+            input input = new input(_fnIndex, model.ToArray());
             return PostAsync(input);
         }
 
         private async Task<byte[]?> PostAsync(input input)
-{
+        {
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
             string json = JsonConvert.SerializeObject(input);
@@ -120,37 +122,40 @@ namespace NovelAIClient
                     JToken? jToken = JsonConvert.DeserializeObject<JToken>(result);
                     if (jToken != null)
                     {
-                        bool isFile = Convert.ToBoolean(jToken["data"]![0]![0]!["is_file"]);
-                        if (isFile)
+                        if (jToken["error"] is null)
                         {
-                            string fileName = jToken["data"]![0]![0]!["name"]!.ToString();
-                            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                            bool isFile = Convert.ToBoolean(jToken["data"]![0]![0]!["is_file"]);
+                            if (isFile)
                             {
-                                byte[] imageBytes = new byte[fs.Length];
-                                await fs.ReadAsync(imageBytes, 0, imageBytes.Length);
-                                return imageBytes;
+                                string fileName = jToken["data"]![0]![0]!["name"]!.ToString();
+                                if (File.Exists(fileName))  //如果是绝对路径
+                                {
+                                    using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                                    {
+                                        byte[] imageBytes = new byte[fs.Length];
+                                        await fs.ReadAsync(imageBytes, 0, imageBytes.Length);
+                                        return imageBytes;
+                                    }
+                                }
+                                else
+                                {
+                                    string imgUrl = $@"{_host}file={fileName}";
+                                    var imgResp = await client.GetAsync(imgUrl);
+                                    return await imgResp.Content.ReadAsByteArrayAsync();
+                                }
+                            }
+                            else  //不知道怎么让它返回非文件, 猜测是base64, 没测试过
+                            {
+                                return Convert.FromBase64String(jToken["data"]![0]![0]!["data"]!.ToString());
                             }
                         }
-                        else  //不知道怎么让它返回非文件, 猜测是base64, 没测试过
+                        else
                         {
-                            return Convert.FromBase64String(jToken["data"]![0]![0]!["data"]!.ToString());
+                            throw new Exception("参数有误，请改用CustomWebUIClient");
                         }
                     }
                     return null;
                 }
-            }
-        }
-
-        private class input
-        {
-            public int fn_index { get; } = 13;
-            public ArrayList data { get; set; }
-
-            public input(ArrayList data)
-            {
-                if (data == null)
-                    throw new ArgumentNullException(nameof(data));
-                this.data = data;
             }
         }
     }

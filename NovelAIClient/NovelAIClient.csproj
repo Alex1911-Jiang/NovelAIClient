@@ -11,7 +11,7 @@
     <PackageTags>Novel;NovelAI</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Alex1911-Jiang/NovelAIClient</RepositoryUrl>
   </PropertyGroup>

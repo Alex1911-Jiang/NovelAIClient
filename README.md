@@ -5,21 +5,34 @@
 先决条件：您需要有一个可用的**私服**NovelAI实例（WebUI或Naifu前端至少一个能打开，并能成功在浏览器生成图片）
 
 ### 如何使用
-#### 对于WebUI
+#### 对于初版WebUI
 ```C#
-            WebUIClient webUIClient = new WebUIClient("http://127.0.0.1:7860/");  //WebUI服务地址
-            byte[]? imageBytes = await webUIClient.PostAsync("关键词");  //还有含屏蔽词和图片尺寸以及所有参数实体的重载
-            if (imageBytes != null)
+            int fn_index = 13;
+            WebUIClient webUIClient = new WebUIClient(13, "http://127.0.0.1:7860/");  //WebUI服务地址
+            byte[]? imageBytes = await webUIClient.PostAsync("生成提示词");  //还有含屏蔽词和图片尺寸以及所有参数实体的重载
+            if (imageBytes is not null)
+                Image bmp = new Bitmap(new MemoryStream(imageBytes));
+```
+
+#### 对于后续任意魔改版WebUI
+```C#
+            int fn_index = 104;
+            CustomWebUIClient webUIClient = new CustomWebUIClient(fn_index, "http://127.0.0.1:7860/");  //fn_index和WebUI服务地址
+            byte[]? imageBytes = await webUIClient.PostAsync("自定义参数字符串","生成提示词","屏蔽词");
+            if (imageBytes is not null)
                 Image bmp = new Bitmap(new MemoryStream(imageBytes));
 ```
 
 #### 对于Naifu
 ```C#
             NaifuClient naifuClient = new NaifuClient("http://127.0.0.1:6969/", true);  //Naifu服务地址和是否填充Naifu网页默认参数
-            byte[]? imageBytes = await naifuClient.PostAsync("关键词");  //还有含屏蔽词和图片尺寸以及所有参数实体的重载
-            if (imageBytes != null)
+            byte[]? imageBytes = await naifuClient.PostAsync("生成提示词");  //还有含屏蔽词和图片尺寸以及所有参数实体的重载
+            if (imageBytes is not null)
                 Image bmp = Image.FromStream(new MemoryStream(imageBytes));
 ```
+
+#### 关于 WebUI 的 fn_index 和自定义参数获取办法
+打开浏览器开发者工具并发起一个请求，随后在（Edge:网络-负载）/（Chrome:网络-请求）中复制
 
 
 ### 如何安装
